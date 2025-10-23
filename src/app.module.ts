@@ -8,6 +8,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { AuthGuardImpl } from './auth/auth.guard';
+import { RolesGuard } from './roles/roles.guard';
+import { Reflector } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -29,6 +32,14 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'APP_GUARD',
+      useClass: AuthGuardImpl,
+    },
+    RolesGuard,
+    Reflector,
+  ],
 })
 export class AppModule {}

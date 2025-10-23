@@ -35,6 +35,11 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({ email }).exec();
+    return this.userModel
+      .findOne({ email })
+      .orFail(new NotFoundException('User not found'))
+      .select('-password')
+      .lean()
+      .exec();
   }
 }

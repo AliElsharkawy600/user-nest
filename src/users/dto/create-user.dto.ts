@@ -20,6 +20,6 @@ export class CreateUserDto {
   @IsOptional()
   name?: string;
 
-  @IsEnum(['user', 'admin'], { default: 'user' })
-  role?: string;
+  @IsEnum(['user', 'admin'])
+  role: string = 'user';
 }
